@@ -5,13 +5,32 @@ const canvas = document.getElementById('canvas');
 
 // scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color('F0F0F0');
+scene.background = new THREE.Color('#F0F0F0');
 
 //camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
 
 //object 
+
+const wireGeometry = new THREE.SphereGeometry( 5, 5, 5 );
+
+const wireframe = new THREE.WireframeGeometry( wireGeometry );
+const wireMaterial = new THREE.LineBasicMaterial({
+  color: 0x468585,   // Set color (you can use any hexadecimal color or a string)
+  linewidth: 2,      // Set the width of the lines (note: not all browsers/platforms support this)
+  opacity: 0.25,     // Set opacity for transparency
+  transparent: true, // Enable transparency
+  depthTest: false,
+});
+
+
+const line = new THREE.LineSegments( wireframe, wireMaterial );
+// line.material.depthTest = false;
+// line.material.opacity = 0.5;
+// line.material.transparent = true;
+
+
 const geometry = new THREE.DodecahedronGeometry();
 const material = new THREE.MeshLambertMaterial({ color: '#468585', emissive: '#468585'});
 const dodecahedron = new THREE.Mesh(geometry, material);
@@ -22,6 +41,7 @@ const boxMaterial = new THREE.MeshLambertMaterial({ color: '#B4B4B3', emissive: 
 const box = new THREE.Mesh(boxGeometry, boxMaterial);
 box.position.y = -1.5;
 
+scene.add( line );
 scene.add(dodecahedron);
 scene.add(box);
 
